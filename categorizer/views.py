@@ -220,7 +220,6 @@ def classify_news_score(input_news_dict):
 			p_word_entertain=find_prob(entertain,word,entertain_data_count)
 			word_count+=entertain[word]
 		p_word=1.0*word_count/(sports_data_count+business_data_count+entertain_data_count) #right
-		#f.write(word.encode('utf-8')+' '+str(p_word_sports)+' '+str(p_word_entertain)+ ' '+ str(p_word_business)+' '+str(p_word)+'\n')
 		if p_word==0:
 			p_word=1
 	
