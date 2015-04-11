@@ -19,6 +19,10 @@ ADMINS = (
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 
+STATIC_ROOT = 'staticfiles'  #comment for Heroku
+#STATIC_ROOT = 'staticfiles'        #uncomment for Heroku
+STATIC_URL = '/static/'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
@@ -104,6 +108,3 @@ USE_TZ = True
 TEMPLATE_DIRS = [(os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), 'tokenizertemplates'))]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-STATIC_ROOT = 'staticfiles'  #comment for Heroku
-#STATIC_ROOT = 'staticfiles'        #uncomment for Heroku
-STATIC_URL = '/static/'
