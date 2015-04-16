@@ -15,14 +15,9 @@
 {% include "navbar.html" %}
 
 <div class="row">
-  <form class="col s12" action="/freq/" method="POST">
+  <form class="col s12" action="/freq/" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
-    <div class="row">
-      <div class="input-field col s12">
-        <textarea id="textarea1" class="materialize-textarea" name="input_text"></textarea>
-        <label for="textarea1">Input sentence here</label>
-      </div>
-    </div>
+    {% include "input_content.html" %} 
      <button class="btn waves-effect waves-light" type="submit" name="action">Generate Freq
     <i class="mdi-content-send right"></i>
   </button>

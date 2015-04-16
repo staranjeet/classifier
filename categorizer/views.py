@@ -80,8 +80,20 @@ def tokenizer(request):
 	sentences,tokens,sent_count,tok_count=None,None,None,None
 	if request.POST:
 		print 'post request for tokenizer'
-		input_text=request.POST['input_text']
-		print input_text
+		try:
+			input_text=request.POST['input_text']
+		except:
+			pass
+		try:
+			p_file = request.FILES['file']
+			print p_file.name
+			input_text=p_file.read()
+			#print type(input_text)
+			input_text=input_text.decode('utf-8')
+			#print input_text
+		except:
+			pass
+		#print input_text
 		temp=generate_tokens(input_text)
 		sentences=temp[1]
 		tokens=temp[0]
@@ -93,6 +105,7 @@ def tokenizer(request):
 def preprocess_string(strings):
 	strings=re.sub(r'(\d+)',r'',strings)
 	strings=strings.replace(',','')
+	strings=strings.replace('"','')
 	strings=strings.replace('(','')
 	strings=strings.replace(')','')
 	strings=strings.replace(u"‘‘",'')
@@ -107,7 +120,19 @@ def stemmer(request):
 	sentences,tokens,stem_words=None,None,None
 	if request.POST:
 		print 'post request for stemmer'
-		input_text=request.POST['input_text']
+		try:
+			input_text=request.POST['input_text']
+		except:
+			pass
+		try:
+			p_file = request.FILES['file']
+			print p_file.name
+			input_text=p_file.read()
+			#print type(input_text)
+			input_text=input_text.decode('utf-8')
+			#print input_text
+		except:
+			pass
 		temp=generate_stem(input_text)
 		tokens=temp[0]
 		sentences=temp[1]
@@ -135,7 +160,19 @@ def stop_word_remover(request):
 	stop_rem,stop_rem_len,st_rem_len,stop_words_removed=None,None,None,None
 	if request.POST:
 		print 'post request for stop words removal'
-		input_text=request.POST['input_text']
+		try:
+			input_text=request.POST['input_text']
+		except:
+			pass
+		try:
+			p_file = request.FILES['file']
+			print p_file.name
+			input_text=p_file.read()
+			#print type(input_text)
+			input_text=input_text.decode('utf-8')
+			#print input_text
+		except:
+			pass
 		temp=generate_stopword(input_text)
 		stop_rem=temp[2]
 		stop_words_removed=set(temp[0])-set(temp[2])
@@ -160,7 +197,19 @@ def freq(request):
 	freq_dict=None
 	if request.POST:
 		print 'post request for freq generation'
-		input_text=request.POST['input_text']
+		try:
+			input_text=request.POST['input_text']
+		except:
+			pass
+		try:
+			p_file = request.FILES['file']
+			print p_file.name
+			input_text=p_file.read()
+			#print type(input_text)
+			input_text=input_text.decode('utf-8')
+			#print input_text
+		except:
+			pass
 		freq_dict=make_frequency(input_text)
 		#=temp
 	return render_to_response('freq.html',{'dict':freq_dict},context_instance=RequestContext(request))
@@ -190,6 +239,8 @@ def classify_news_score(input_news_dict):
 	fbusiness=codecs.open(os.path.join(module_dir,'business.txt'),encoding='utf-8')
 	fsports=codecs.open(os.path.join(module_dir,'sports.txt'),encoding='utf-8')
 	fentertainment=codecs.open(os.path.join(module_dir,'entertainment.txt'),encoding='utf-8')
+	fnational=codecs.open(os.path.join(module_dir,'national.txt'),encoding='utf-8')
+	finternational=codecs.open(os.path.join(module_dir,'international.txt'),encoding='utf-8')
 	#make dicts
 	business=make_dict_file(fbusiness)
 	business_data_count=size_dict(business)
@@ -197,6 +248,10 @@ def classify_news_score(input_news_dict):
 	sports_data_count=size_dict(sports)
 	entertain=make_dict_file(fentertainment)
 	entertain_data_count=size_dict(entertain)
+	national=make_dict_file(fnational)
+	national_data_count=size_dict(national)
+	international=make_dict_file(finternational)
+	international_data_count=size_dict(international)
 
 	# p_sports_doc=0.0
 	# p_business_doc=0.0
@@ -205,11 +260,13 @@ def classify_news_score(input_news_dict):
 	p_sports_sum=0.0
 	p_business_sum=0.0
 	p_entertain_sum=0.0
+	p_national_sum=0.0
+	p_international_sum=0.0
 
 	for w in input_news_dict.keys():
 		word=w.decode('utf-8')
 		word_count=0
-		p_word_business,p_word_sports,p_word_entertain=0,0,0
+		p_word_business,p_word_sports,p_word_entertain,p_word_national,p_word_international=0,0,0,0,0
 		if word in sports.keys():
 			p_word_sports=find_prob(sports,word,sports_data_count)
 			word_count+=sports[word]
@@ -219,7 +276,14 @@ def classify_news_score(input_news_dict):
 		if word in entertain.keys():
 			p_word_entertain=find_prob(entertain,word,entertain_data_count)
 			word_count+=entertain[word]
-		p_word=1.0*word_count/(sports_data_count+business_data_count+entertain_data_count) #right
+		if word in national.keys():
+			p_word_national=find_prob(national,word,national_data_count)
+			word_count+=national[word]
+		if word in international.keys():
+			p_word_international=find_prob(international,word,international_data_count)
+			word_count+=international[word]
+
+		p_word=1.0*word_count/(sports_data_count+business_data_count+entertain_data_count+national_data_count+international_data_count) #right
 		if p_word==0:
 			p_word=1
 	
@@ -229,8 +293,12 @@ def classify_news_score(input_news_dict):
 			p_business_sum+=log(input_news_dict[w]*p_word_business/p_word)
 		if p_word_entertain>0:
 			p_entertain_sum+=log(input_news_dict[w]*p_word_entertain/p_word)
-	outcome=['business','entertainment','sports']
-	scores=[exp(p_business_sum+log(1.0/3.0)),exp(p_entertain_sum+log(1.0/3.0)),exp(p_sports_sum+log(1.0/3.0))]
+		if p_word_national>0:
+			p_national_sum+=log(input_news_dict[w]*p_word_national/p_word)
+		if p_word_international>0:
+			p_international_sum+=log(input_news_dict[w]*p_word_international/p_word)
+	outcome=['business','entertainment','sports','national','international']
+	scores=[exp(p_business_sum+log(1.0/3.0)),exp(p_entertain_sum+log(1.0/3.0)),exp(p_sports_sum+log(1.0/3.0)),exp(p_national_sum+log(1.0/3.0)),exp(p_international_sum+log(1.0/3.0))]
 	max_score=max(scores)
 	message=outcome[scores.index(max_score)]
 	#print 'business = ', exp(p_business_sum+log(1.0/3.0)),'sports = ',exp(p_sports_sum+log(1.0/3.0)), 'entertain = ',exp(p_entertain_sum+log(1.0/3.0))
@@ -277,19 +345,39 @@ def classify(request):
 	c = {}
 	c.update(csrf(request))
 	outcome=''
+	hindi={}
+	x=''
+	hindi['business']=u'व्यापार'
+	hindi['national']=u'राष्ट्रीय'
+	hindi['international']=u'अंतरराष्ट्रीय'
+	hindi['sports']=u'खेल'
+	hindi['entertainment']=u'मनोरंजन'
 	if request.POST:
 		print 'post request on predict page'
-		input_text=request.POST['input_text']
+		try:
+			input_text=request.POST['input_text']
+		except:
+			pass
+		try:
+			p_file = request.FILES['file']
+			print p_file.name
+			input_text=p_file.read()
+			#print type(input_text)
+			input_text=input_text.decode('utf-8')
+			#print input_text
+		except:
+			pass
 		
 		temp=make_data_set(input_text)
 		ssfr,sample_data_count=temp[0],temp[1]
 		print sample_data_count
 		h = classify_news_score(ssfr)
 		outcome=h[0]
-		print outcome
+		print hindi[outcome]
+		x=hindi[outcome]
 
 
-	return render_to_response('predict.html',{'outcome':outcome},context_instance=RequestContext(request))
+	return render_to_response('predict.html',{'outcome':x },context_instance=RequestContext(request))
 
 def clean_html(input_text):
 	text=lxml.html.document_fromstring(input_text)
@@ -339,7 +427,7 @@ def suggest(request):
 		print 'post req on suggest page'
 		input_text=request.POST['input_text']
 
-		urls=['http://feeds.feedburner.com/ndtvkhabar','http://www.livehindustan.com/home/rssfeed/1.html','http://www.jansatta.com/feed/']
+		urls=['http://feeds.feedburner.com/ndtvkhabar','http://www.livehindustan.com/home/rssfeed/1.html']
 
 		for each_url in urls:
 			#do processing here

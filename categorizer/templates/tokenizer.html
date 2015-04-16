@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
    
-    <title>Stopwords</title>
+    <title>Tokenizer</title>
 
     <!--Import materialize.css-->
       <link type="text/css" rel="stylesheet" href="/static/materialize/css/materialize.min.css"  media="screen,projection"/>
@@ -10,19 +10,27 @@
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   </head>
-
+<style>
+.sentence{
+  background:#E6EFC2;color:#264409;border-color:#C6D880;
+  padding:.1em;margin-bottom:0.6em;border:2px solid #ddd;
+ 
+}
+.tokens{
+  background:#E6EFC2;color:#264409;border-color:#C6D880;
+  padding:.1em;margin-bottom:0.6em;border:2px solid #ddd;
+  display: inline-block;
+}
+</style>
   <body>
 {% include "navbar.html" %}
 
 <div class="row">
-  <form class="col s12" action="/tokenizer/" method="POST">
+  <form class="col s12" action="/tokenizer/" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
-    <div class="row">
-      <div class="input-field col s12">
-        <textarea id="textarea1" class="materialize-textarea" name="input_text"></textarea>
-        <label for="textarea1">Input sentence here</label>
-      </div>
-    </div>
+  {% include "input_content.html" %} 
+
+
      <button class="btn waves-effect waves-light" type="submit" name="action">Tokenize
     <i class="mdi-content-send right"></i>
   </button>
@@ -34,16 +42,16 @@
       Sentence Tokenizer : {{scount}}
       <ul>
     {%for i in sentence%}
-   <li> {{i}}</li>
+   <li class='sentence'> {{i}}</li>
     {%endfor%}
   </ul>
   {%endif%}
   <br/><br/>
    {%if tokens %}
-   Space Tokenizer {{tcount}}
+  Total Tokenizer {{tcount}}
       <ul>
     {%for i in tokens%}
-   <li> {{i}}</li>
+   <li class="tokens"> {{i}}</li>
     {%endfor%}
   </ul>
   {%endif%}

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
   
-    <title>Stopwords</title>
+    <title>Predict News</title>
 
     <!--Import materialize.css-->
       <link type="text/css" rel="stylesheet" href="/static/materialize/css/materialize.min.css"  media="screen,projection"/>
@@ -14,21 +14,30 @@
   <body>
 {% include "navbar.html" %}
 <div class="row">
-  <form class="col s12" action="/classify/" method="POST">
+  <form class="col s12" action="/classify/" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
-    <div class="row">
-      <div class="input-field col s12">
-        <textarea id="textarea1" class="materialize-textarea" name="input_text"></textarea>
-        <label for="textarea1">Input sentence here</label>
-      </div>
-    </div>
+    {% include "input_content.html" %} 
      <button class="btn waves-effect waves-light" type="submit" name="action">Classify
     <i class="mdi-content-send right"></i>
   </button>
   </form>
 </div>
-   
-       {{outcome}}
+   {% if outcome%}
+  <div class="row">
+        <div class="col s6 m6">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+             <!--  <span class="card-title">Card Title</span> -->
+              <p>{{outcome}}</p>
+            </div>
+            <!-- <div class="card-action">
+              <a href="#">This is a link</a>
+              <a href='#'>This is a link</a>
+            </div> -->
+          </div>
+        </div>
+      </div>
+      {%endif%}
   
   
   </body>
