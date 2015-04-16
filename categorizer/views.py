@@ -256,6 +256,7 @@ def classify_news_score(input_news_dict):
 	# p_sports_doc=0.0
 	# p_business_doc=0.0
 	# p_entertain_doc=0.0
+	#fake comment for heroku
 
 	p_sports_sum=0.0
 	p_business_sum=0.0
