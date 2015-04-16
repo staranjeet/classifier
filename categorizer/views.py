@@ -256,7 +256,6 @@ def classify_news_score(input_news_dict):
 	# p_sports_doc=0.0
 	# p_business_doc=0.0
 	# p_entertain_doc=0.0
-	#fake comment for heroku
 
 	p_sports_sum=0.0
 	p_business_sum=0.0
@@ -374,11 +373,11 @@ def classify(request):
 		print sample_data_count
 		h = classify_news_score(ssfr)
 		outcome=h[0]
-		print hindi[outcome]
-		x=hindi[outcome]
+		#print hindi[outcome]
+		#x=hindi[outcome]
 
 
-	return render_to_response('predict.html',{'outcome':x },context_instance=RequestContext(request))
+	return render_to_response('predict.html',{'outcome':outcome },context_instance=RequestContext(request))
 
 def clean_html(input_text):
 	text=lxml.html.document_fromstring(input_text)
@@ -424,6 +423,7 @@ def suggest(request):
 	c = {}
 	c.update(csrf(request))
 	news=[]
+	input_text=''
 	if request.POST:
 		print 'post req on suggest page'
 		input_text=request.POST['input_text']
@@ -451,4 +451,4 @@ def suggest(request):
 
 
 
-	return render_to_response('suggest.html',{'news':news},context_instance=RequestContext(request))
+	return render_to_response('suggest.html',{'news':news,'your_choice':input_text},context_instance=RequestContext(request))

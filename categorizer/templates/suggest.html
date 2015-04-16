@@ -56,8 +56,9 @@
   </button>
   </form>
 
-   
-
+   {%if your_choice%}
+you selected {{your_choice}}
+{%endif%}
    {% for i,j in news %}
 
 <div class="row">
