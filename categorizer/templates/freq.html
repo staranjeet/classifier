@@ -9,6 +9,23 @@
 
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <style>
+.rect{
+   background:#e1f5fe;color:#264409;border-color:#e1f5fe;
+  padding:.1em;margin-bottom:0.6em;border:2px solid #e1f5fe;
+  display: inline-block;
+}
+.word{
+ background:#b3e5fc;color:#264409;border-color:#b3e5fc;
+  padding:.1em;margin:0.2em;border:2px solid #b3e5fc;
+  display: inline-block;
+}
+.count{
+   background:#01579b;color:#FFFFFF;border-color:#01579b;
+  padding:.1em;margin:0.2em;border:2px solid #01579b;
+  display: inline-block;
+}
+</style>
   </head>
 
   <body>
@@ -28,7 +45,7 @@
     
       <ul>
     {%for i,j in dict.items %}
-   <li> {{i}} - {{j}}</li>
+   <li class="rect"> <span class="word">{{i}}</span> - <span class="count">{{j}}</span></li>
     {%endfor%}
   </ul>
   {%endif%}

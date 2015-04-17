@@ -41,6 +41,7 @@ def generate_tokens(text):
 	for each_sentence in sentences:
 		word_list=each_sentence.split(' ')
 		tokens=tokens+word_list
+	tokens=hyphenated_tokens(tokens)
 	return (remove_space(set(tokens)),sentences,remove_space(tokens))
 
 def remove_space(tokens):
@@ -49,6 +50,17 @@ def remove_space(tokens):
 
 def token_count(tokens):
 	return len(set(tokens))
+
+def hyphenated_tokens(tokens):
+		'''removes tokens containing replicating words'''
+		for each in tokens:
+			if '-' in each:
+				tok=each.split('-')
+				tokens.remove(each)
+				tokens.append(tok[0])
+				#if tok[0]!=tok[1]:
+				tokens.append(tok[1])
+		return tokens
 
 def stem_word(word):
 	suffixes = {
@@ -86,14 +98,19 @@ def tokenizer(request):
 			pass
 		try:
 			p_file = request.FILES['file']
-			print p_file.name
+			print p_file.name,p_file.content_type
+			
 			input_text=p_file.read()
-			#print type(input_text)
+			print type(input_text)
+			#input_text=unicode(input_text,"utf-8")
+			#input_text=input_text.encode('utf-8')
+			print type(input_text)
 			input_text=input_text.decode('utf-8')
 			#print input_text
 		except:
 			pass
 		#print input_text
+		input_text=preprocess_string(input_text)
 		temp=generate_tokens(input_text)
 		sentences=temp[1]
 		tokens=temp[0]
@@ -108,6 +125,10 @@ def preprocess_string(strings):
 	strings=strings.replace('"','')
 	strings=strings.replace('(','')
 	strings=strings.replace(')','')
+	strings=strings.replace('"','')
+	strings=strings.replace(':','')
+	#strings=strings.replace('-','')
+	strings=strings.replace("'",'')
 	strings=strings.replace(u"‘‘",'')
 	strings=strings.replace(u"’’",'')
 	strings=strings.replace("''",'')
@@ -133,6 +154,8 @@ def stemmer(request):
 			#print input_text
 		except:
 			pass
+		#input_text=input_text.decode('utf-8')
+		input_text=preprocess_string(input_text)
 		temp=generate_stem(input_text)
 		tokens=temp[0]
 		sentences=temp[1]
@@ -173,6 +196,7 @@ def stop_word_remover(request):
 			#print input_text
 		except:
 			pass
+		input_text=preprocess_string(input_text)
 		temp=generate_stopword(input_text)
 		stop_rem=temp[2]
 		stop_words_removed=set(temp[0])-set(temp[2])
@@ -210,6 +234,7 @@ def freq(request):
 			#print input_text
 		except:
 			pass
+		input_text=preprocess_string(input_text)
 		freq_dict=make_frequency(input_text)
 		#=temp
 	return render_to_response('freq.html',{'dict':freq_dict},context_instance=RequestContext(request))

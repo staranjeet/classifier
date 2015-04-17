@@ -10,6 +10,20 @@
 
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <style>
+
+.word{
+ background:#b3e5fc;color:#264409;border-color:#b3e5fc;
+  padding:.1em;margin:0.2em;border:2px solid #b3e5fc;
+  display: inline-block;
+}
+.stop{
+   background:#ef5350;color:#FFFFFF;border-color:#ef5350;
+  padding:.1em;margin:0.2em;border:2px solid #ef5350;
+  display: inline-block;
+}
+</style>
+
   </head>
 
   <body>
@@ -35,15 +49,15 @@
     {{stop_words_rem_count}} stopword removed and {{words_count}} left.
       <ul>
     {%for i in stopwords %}
-   <li> {{i}}</li>
+   <li class="word"> {{i}}</li>
     {%endfor%}
   </ul>
   {%endif%}
    {%if words_remv %}
-    
+     <!-- style="text-decoration:line-through" -->
       <ul>
     {%for i in words_remv %}
-   <li style="text-decoration:line-through"> {{i}}</li>
+   <li class="stop"> {{i}}</li>
     {%endfor%}
   </ul>
   {%endif%}
