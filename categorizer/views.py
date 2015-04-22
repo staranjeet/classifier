@@ -375,12 +375,12 @@ def classify(request):
 	outcome=''
 	hindi={}
 	x=''
-	hindi['business']=u'व्यापार'
-	hindi['national']=u'राष्ट्रीय'
-	hindi['international']=u'अंतरराष्ट्रीय'
-	hindi['sports']=u'खेल'
-	hindi['entertainment']=u'मनोरंजन'
-	if request.POST:
+	hindi['business']=u'यह समाचारव्यापार से संबंधित है।'
+	hindi['national']=u'यह राष्ट्रीय समाचार है।'
+	hindi['international']=u'यह अंतरराष्ट्रीय समाचार है।'
+	hindi['sports']=u'यह समाचारखेल से संबंधित है।'
+	hindi['entertainment']=u'यह समाचार मनोरंजन क्षेत्र से संबंधित है।'
+	if request.POST: 
 		print 'post request on predict page'
 		try:
 			input_text=request.POST['input_text']
@@ -401,7 +401,7 @@ def classify(request):
 		print sample_data_count
 		h = classify_news_score(ssfr)
 		out=h[0]
-		print hindi[out]
+		#print hindi[out]
 		outcome=hindi[out]
 
 
