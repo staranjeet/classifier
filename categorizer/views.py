@@ -400,9 +400,9 @@ def classify(request):
 		ssfr,sample_data_count=temp[0],temp[1]
 		print sample_data_count
 		h = classify_news_score(ssfr)
-		outcome=h[0]
-		#print hindi[outcome]
-		#x=hindi[outcome]
+		out=h[0]
+		print hindi[out]
+		outcome=hindi[out]
 
 
 	return render_to_response('predict.html',{'outcome':outcome },context_instance=RequestContext(request))
@@ -452,6 +452,12 @@ def suggest(request):
 	c.update(csrf(request))
 	news=[]
 	input_text=''
+	hindi={}
+	hindi['business']=u'व्यापार'
+	hindi['national']=u'राष्ट्रीय'
+	hindi['international']=u'अंतरराष्ट्रीय'
+	hindi['sports']=u'खेल'
+	hindi['entertainment']=u'मनोरंजन'
 	if request.POST:
 		print 'post req on suggest page'
 		input_text=request.POST['input_text']
@@ -475,6 +481,7 @@ def suggest(request):
 		
 		news.sort(key=operator.itemgetter(1),reverse=True)
 		#news.reverse()
+		input_text=hindi[input_text]
 
 
 

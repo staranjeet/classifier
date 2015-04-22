@@ -22,6 +22,7 @@
   display: inline-block;
 }
 </style>
+
   <body>
 {% include "navbar.html" %}
 
@@ -29,9 +30,7 @@
   <form class="col s12" action="/tokenizer/" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
   {% include "input_content.html" %} 
-
-
-     <button class="btn waves-effect waves-light" type="submit" name="action">Tokenize
+     <button class="btn waves-effect waves-light btn-large" type="submit" name="action">Tokenize
     <i class="mdi-content-send right"></i>
   </button>
   </form>
@@ -55,5 +54,7 @@
     {%endfor%}
   </ul>
   {%endif%}
+  <script type="text/javascript" src="../static/jquery.js"></script>
+  <script type="text/javascript" src="../static/materialize/js/materialize.min.js"></script>
   </body>
 </html>
