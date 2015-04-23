@@ -325,7 +325,7 @@ def classify_news_score(input_news_dict):
 		if p_word_international>0:
 			p_international_sum+=log(input_news_dict[w]*p_word_international/p_word)
 	outcome=['business','entertainment','sports','national','international']
-	scores=[exp(p_business_sum+log(1.0/3.0)),exp(p_entertain_sum+log(1.0/3.0)),exp(p_sports_sum+log(1.0/3.0)),exp(p_national_sum+log(1.0/3.0)),exp(p_international_sum+log(1.0/3.0))]
+	scores=[exp(p_business_sum+log(1.0/5.0)),exp(p_entertain_sum+log(1.0/5.0)),exp(p_sports_sum+log(1.0/5.0)),exp(p_national_sum+log(1.0/5.0)),exp(p_international_sum+log(1.0/5.0))]
 	print scores
 	max_score=max(scores)
 	message=outcome[scores.index(max_score)]

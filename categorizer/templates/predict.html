@@ -15,6 +15,22 @@
    margin-right:5%;
 }
   </style>
+  <script>
+  function validate(){
+  var x=document.getElementById('textarea1').value;
+  var y=document.getElementById('file1').value;
+  
+    if(x.length>0 || y.length>0)
+      {
+        
+      return true;
+    }
+    else{
+      alert("कृपया फाइल या इनपुट क्षेत्र में से कोई एक निर्दिष्ट करे")
+    return false;
+    }
+  }
+</script>
   </head>
 
   <body>
@@ -22,7 +38,7 @@
 <div id="main_content">
 
 <div class="row">
-  <form class="col s12" action="/classify/" method="POST" enctype="multipart/form-data">
+  <form class="col s12" action="/classify/" method="POST" enctype="multipart/form-data" onsubmit="return validate();">
       {% csrf_token %}
     {% include "input_content.html" %} 
      <button class="btn waves-effect waves-light" type="submit" name="action">Classify

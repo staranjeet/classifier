@@ -16,6 +16,11 @@
   $(document).ready(function() {
     $('select').material_select();
   });
+  function validate(){
+    if(document.getElementById('textarea1')!='' || document.getElementById('file1')!='')
+      return true;
+    return false;
+  }
   </script>
   <style>
   #main_content{
@@ -23,6 +28,22 @@
    margin-right:5%;
 }
   </style>
+  <script>
+function validate(){
+  var x=document.getElementById('textarea1').value;
+  var y=document.getElementById('file1').value;
+  
+    if(x.length>0 || y.length>0)
+      {
+        
+      return true;
+    }
+    else{
+      alert("कृपया फाइल या इनपुट क्षेत्र में से कोई एक निर्दिष्ट करे")
+    return false;
+    }
+  }
+</script>
   </head>
 
   <body >
@@ -30,7 +51,7 @@
 
 <div id="main_content">
 
-  <form class="col s12" action="/suggest/" method="POST">
+  <form class="col s12" action="/suggest/" method="POST" onsubmit="return validate();">
       {% csrf_token %}
     <!-- <div class="row">
       <div class="input-field col s12">
@@ -46,7 +67,7 @@
           <form class="col s12 m6">
             <div class="row">
               <div class="input-field col s12">
-                <select id="select1" name="input_text">
+                <select id="select1" name="input_text" required>
                   <option value="" disabled selected>अपना विकल्प चुने</option>
                   <option value="business">व्यापार</option>
                   <option value="entertainment">मनोरंजन</option>
