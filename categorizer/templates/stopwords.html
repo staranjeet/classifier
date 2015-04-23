@@ -13,8 +13,8 @@
   <style>
 
 .word{
- background:#b3e5fc;color:#264409;border-color:#b3e5fc;
-  padding:.1em;margin:0.2em;border:2px solid #b3e5fc;
+ background:#c8e6c9;color:#1b5e20;border-color:#c8e6c9;
+  padding:.1em;margin:0.2em;border:2px solid #c8e6c9;
   display: inline-block;
 }
 .stop{
@@ -22,19 +22,20 @@
   padding:.1em;margin:0.2em;border:2px solid #ef5350;
   display: inline-block;
 }
+#main_content{
+   margin-left:5%;
+   margin-right:5%;
+}
 </style>
-<script>
-$(function() {
-   $('#textarea1').autogrow();
-});
-</script>
+
 
   </head>
 
   <body>
 {% include "navbar.html" %}
 
-   
+   <div id="main_content">
+
 <div class="row">
   
   <form class="col s12" action="/stopwords/" method="POST" enctype="multipart/form-data">
@@ -51,14 +52,16 @@ $(function() {
    
      
        {%if stopwords %}
-    {{stop_words_rem_count}} stopword removed and {{words_count}} left.
-      <ul>
+        दिये गए इनपुट में <b> {{stop_words_rem_count}}</b> स्टॉपवर्ड और <b>{{words_count}}</b> शब्द मिल॓ ।<br/>
+    <b>शब्द : </b><br/>
     {%for i in stopwords %}
    <li class="word"> {{i}}</li>
     {%endfor%}
   </ul>
   {%endif%}
+  <br/>
    {%if words_remv %}
+   <b>स्टॉपवोर्ड्स  : </b><br/>
      <!-- style="text-decoration:line-through" -->
       <ul>
     {%for i in words_remv %}
@@ -66,6 +69,7 @@ $(function() {
     {%endfor%}
   </ul>
   {%endif%}
+</div>
    <script type="text/javascript" src="../static/jquery.js"></script>
   <script type="text/javascript" src="../static/materialize/js/materialize.min.js"></script>
   </body>

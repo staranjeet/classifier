@@ -375,7 +375,7 @@ def classify(request):
 	outcome=''
 	hindi={}
 	x=''
-	hindi['business']=u'यह समाचारव्यापार से संबंधित है।'
+	hindi['business']=u'यह समाचार व्यापार से संबंधित है।'
 	hindi['national']=u'यह राष्ट्रीय समाचार है।'
 	hindi['international']=u'यह अंतरराष्ट्रीय समाचार है।'
 	hindi['sports']=u'यह समाचारखेल से संबंधित है।'
@@ -471,10 +471,10 @@ def suggest(request):
 			print 'len of news generated ',len(title)
 
 			temp_ci=return_each_news(description,input_text)
-			ci=temp_ci[0]
-			if ci==-1:
+			if temp_ci==-1:
 				temp_news=None
 			else:
+				ci=temp_ci[0]
 				temp_news=News(url=link[ci],headline=title[ci],content=clean_html(description[ci]),pub_date=pubdate[ci])
 				pair_news=(temp_news,temp_ci[1])
 				news.append(pair_news)

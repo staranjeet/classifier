@@ -17,11 +17,18 @@
     $('select').material_select();
   });
   </script>
+  <style>
+  #main_content{
+   margin-left:5%;
+   margin-right:5%;
+}
+  </style>
   </head>
 
   <body >
 {% include "navbar.html" %}
 
+<div id="main_content">
 
   <form class="col s12" action="/suggest/" method="POST">
       {% csrf_token %}
@@ -83,5 +90,6 @@
    
    {%endfor%}
       </div>
+    </div>
   </body>
 </html>

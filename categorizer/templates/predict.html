@@ -9,10 +9,18 @@
 
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+ <style>
+  #main_content{
+   margin-left:5%;
+   margin-right:5%;
+}
+  </style>
   </head>
 
   <body>
 {% include "navbar.html" %}
+<div id="main_content">
+
 <div class="row">
   <form class="col s12" action="/classify/" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
@@ -38,7 +46,7 @@
         </div>
       </div>
       {%endif%}
-  
+  </div>
     <script type="text/javascript" src="../static/jquery.js"></script>
   <script type="text/javascript" src="../static/materialize/js/materialize.min.js"></script>
   </body>

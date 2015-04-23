@@ -11,25 +11,30 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <style>
 .rect{
-   background:#e1f5fe;color:#264409;border-color:#e1f5fe;
-  padding:.1em;margin-bottom:0.6em;border:2px solid #e1f5fe;
+   background:#e8f5e9;color:#264409;border-color:#e8f5e9;
+  padding:.1em;margin-bottom:0.6em;border:2px solid #e8f5e9;
   display: inline-block;
 }
 .word{
- background:#b3e5fc;color:#264409;border-color:#b3e5fc;
-  padding:.1em;margin:0.2em;border:2px solid #b3e5fc;
-  display: inline-block;
+ background:#e8f5e9;color:#4caf50;border-color:#e8f5e9;
+  padding:.1em;margin:0.2em;border:2px solid #e8f5e9;
+  display: inline-block;  font-size:18px;
 }
 .count{
-   background:#01579b;color:#FFFFFF;border-color:#01579b;
-  padding:.1em;margin:0.2em;border:2px solid #01579b;
-  display: inline-block;
+   background:#e8f5e9;color:#1b5e20;border-color:#e8f5e9;
+  padding:.1em;margin:0.2em;border:2px solid #e8f5e9;
+  display: inline-block; font-size:20px;
+}
+#main_content{
+   margin-left:5%;
+   margin-right:5%;
 }
 </style>
   </head>
 
   <body>
 {% include "navbar.html" %}
+<div id="main_content">
 
 <div class="row">
   <form class="col s12" action="/freq/" method="POST" enctype="multipart/form-data">
@@ -49,7 +54,7 @@
     {%endfor%}
   </ul>
   {%endif%}
-  
+  </div>
     <script type="text/javascript" src="../static/jquery.js"></script>
   <script type="text/javascript" src="../static/materialize/js/materialize.min.js"></script>
   </body>

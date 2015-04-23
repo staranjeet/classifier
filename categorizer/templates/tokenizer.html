@@ -12,20 +12,24 @@
   </head>
 <style>
 .sentence{
-  background:#E6EFC2;color:#264409;border-color:#C6D880;
-  padding:.1em;margin-bottom:0.6em;border:2px solid #ddd;
+  background:#c8e6c9;color:#1b5e20;border-color:#c8e6c9;
+  padding:.1em;margin-bottom:0.6em;border:2px solid #c8e6c9;
  
 }
 .tokens{
-  background:#E6EFC2;color:#264409;border-color:#C6D880;
-  padding:.1em;margin-bottom:0.6em;border:2px solid #ddd;
+  background:#c8e6c9;color:#1b5e20;border-color:#c8e6c9;
+  padding:.1em;margin-bottom:0.6em;border:2px solid #c8e6c9;
   display: inline-block;
+}
+#main_content{
+   margin-left:5%;
+   margin-right:5%;
 }
 </style>
 
   <body>
 {% include "navbar.html" %}
-
+<div id="main_content">
 <div class="row">
   <form class="col s12" action="/tokenizer/" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
@@ -38,7 +42,8 @@
 
    
       {%if sentence%}
-      Sentence Tokenizer : {{scount}}
+     <b> Sentence Tokenizer</b><br/> 
+   दिये गए इनपुट में <b>{{scount}}</b> वाक्य पाय॓ गए ।
       <ul>
     {%for i in sentence%}
    <li class='sentence'> {{i}}</li>
@@ -47,13 +52,15 @@
   {%endif%}
   <br/><br/>
    {%if tokens %}
-  Total Tokenizer {{tcount}}
+    <b> Space Tokenizer</b><br/> 
+ दिये गए इनपुट में <b>{{tcount}}</b> टोकन पाय॓ गए ।
       <ul>
     {%for i in tokens%}
    <li class="tokens"> {{i}}</li>
     {%endfor%}
   </ul>
   {%endif%}
+</div>
   <script type="text/javascript" src="../static/jquery.js"></script>
   <script type="text/javascript" src="../static/materialize/js/materialize.min.js"></script>
   </body>

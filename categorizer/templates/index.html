@@ -3,80 +3,65 @@
   <head>
     
 
-    <title>Tokenizer</title>
+    <title>News Classifier</title>
 
     <link type="text/css" rel="stylesheet" href="/static/materialize/css/materialize.min.css"  media="screen,projection"/>
 
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+ 
+<style>
+.circle
+{
+width:220px;
+height:220px;
+border-radius:50%;
+font-size:20px;
+color:#fff;
+line-height:220px;
+text-align:center;
+background:#ff5252;
+display:inline-block;
+padding: 10px;
+}
+#main_nav{
+
+ width:800px; margin:0 auto;
+ margin-top:8%;
+}
+</style>
   </head>
 
   <body>
 
+
+<div id="main_nav">
     <div class="row">
-        <div class="col s6 m6">
-          <div class="card small blue-grey darken-1">
-            <div class="card-content white-text">
-              <span class="card-title"><a href='/tokenizer'>Tokenize Text</a> </span>
-              
-            </div>
-            
-          </div>
-        </div>
+      <div class="circle"><a href='/tokenizer'><span class="white-text">Tokenize Text</span></a></div>    
 
 
-        <div class="col s6 m6">
-          <div class="card small blue-grey darken-1">
-            <div class="card-content white-text">
-              <span class="card-title"><a href='/stemmer'>Stemmer</a></span>
-             
-            </div>
-            
-          </div>
+         <div class="circle"><a href='/stemmer'><span class="white-text">Stemmer</span></a>  
         </div>
-        <div class="col s6 m6">
-          <div class="card  small blue-grey darken-1">
-            <div class="card-content white-text">
-              <span class="card-title"><a href='/stopwords'>Remove Stop Words</a></span>
-             
-            </div>
+         <div class="circle"><a href='/stopwords'><span class="white-text">Remove Stop Words</span></a>     
             
-          </div>
         </div>
       </div>
       
 <div class="row">
-        <div class="col s6 m6">
-          <div class="card small blue-grey darken-1">
-            <div class="card-content white-text">
-              <span class="card-title"><a href='/freq'>Frequency</a></span>
+      <div class="circle"><a href='/freq'><span class="white-text">Frequency</span></a>
               
-            </div>
-            
-          </div>
+           
         </div>
 
 
-        <div class="col s6 m6">
-          <div class="card small blue-grey darken-1">
-            <div class="card-content white-text">
-              <span class="card-title"><a href='/classify'>Classify News</a></span>
+         <div class="circle"><a href='/classify'><span class="white-text">Classify News</span></a></div>
+        <div class="circle"><a href='/suggest'><span class="white-text">Suggest News</span></a>
              
             </div>
             
-          </div>
-        </div>
-        <div class="col s6 m6">
-          <div class="card small blue-grey darken-1">
-            <div class="card-content white-text">
-              <span class="card-title"><a href='/suggest'>Suggest News</a></span>
-             
-            </div>
-            
-          </div>
-        </div>
+         
       </div>
-
+</div>
 
       
   </body>
