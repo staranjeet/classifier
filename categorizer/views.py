@@ -65,17 +65,46 @@ def hyphenated_tokens(tokens):
 	#fake comment
 
 def stem_word(word):
+	rep_suf={}
+	rep_suf[u'ने']=u'ना'
+	not_suf={}
+	not_suf[u"ांक्षी"]=u"कांक्षी"
+	not_suf[u"क्षा"]=u"क्षा"
+# 	rep_suf[u'ना']=u''
+# 	rep_suf[u'ाती']=u'ात'
+# 	rep_suf[u'ायु']=u'ायु'
+# 	rep_suf[u'षा']=u'्षा'
+# 	#rep_suf[u'पति']=u'पति'
+# 	# rep_suf[u'ीयों']=u''
+# 	# rep_suf[u'ने']=u'ना'
+# 	# rep_suf[u'ने']=u'ना'
+# 	# rep_suf[u'ने']=u'ना'
+# 	# rep_suf[u'ने']=u'ना'
+# 	suffixes = {
+#     1: [u"ो",u"े",u"ू",u"ु",u"ि"],
+#     2: [u"कर",u"ाओ",u"िए",u"ाई",u"ाए",u"ने",u"नी",u"ना",u"ी",u"ते",u"ीं",u"ती",u"ता",u"ाँ",u"ां",u"ों",u"ें"],
+#     3: [u"ाकर",u"ाइए",u'षा',u"ाईं",u"ाया",u"ेगी",u"ा",u"ेगा",u"ोगी",u"ोगे",u"ाने",u"ायु",u"ाना",u"ाते",u"ाती",u"ाता",u"तीं",u"ाओं",u"ाएं",u"ुओं",u"ुएं",u"ुआं"],
+#     4: [u"ाएगी",u"ाएगा",u"ाओगी",u"ाओगे",u"एंगी",u"ेंगी",u"एंगे",u"ेंगे",u'ीयों',u"ूंगी",u"ूंगा",u"ातीं",u"नाओं",u"नाएं",u"ताओं",u"ताएं",u"ियाँ",u"ियों",u"ियां"],
+#     5: [u"ाएंगी",u"ाएंगे",u"ाऊंगी",u"ाऊंगा",u"ाइयाँ",u"ाइयों",u"ाइयां"],
+# }
 	suffixes = {
     1: [u"ो",u"े",u"ू",u"ु",u"ी",u"ि",u"ा"],
     2: [u"कर",u"ाओ",u"िए",u"ाई",u"ाए",u"ने",u"नी",u"ना",u"ते",u"ीं",u"ती",u"ता",u"ाँ",u"ां",u"ों",u"ें"],
-    3: [u"ाकर",u"ाइए",u"ाईं",u"ाया",u"ेगी",u"ेगा",u"ोगी",u"ोगे",u"ाने",u"ाना",u"ाते",u"ाती",u"ाता",u"तीं",u"ाओं",u"ाएं",u"ुओं",u"ुएं",u"ुआं"],
+    3: [u"ाकर",u"ाइए",u"ाईं",u"ाया",u"ेगी",u"ेगा",u"क्षा",u"ोगी",u"ोगे",u"ाने",u"ाना",u"ाते",u"ाती",u"ाता",u"तीं",u"ाओं",u"ाएं",u"ुओं",u"ुएं",u"ुआं"],
     4: [u"ाएगी",u"ाएगा",u"ाओगी",u"ाओगे",u"एंगी",u"ेंगी",u"एंगे",u"ेंगे",u"ूंगी",u"ूंगा",u"ातीं",u"नाओं",u"नाएं",u"ताओं",u"ताएं",u"ियाँ",u"ियों",u"ियां"],
-    5: [u"ाएंगी",u"ाएंगे",u"ाऊंगी",u"ाऊंगा",u"ाइयाँ",u"ाइयों",u"ाइयां"],
+    5: [u"ाएंगी",u"ाएंगे",u"ाऊंगी",u"ाऊंगा",u"ाइयाँ",u"ाइयों",u"ाइयां",u"ांक्षी"],
+
 }
 	for L in 5, 4, 3, 2, 1:
 		if len(word) > L + 1:
 			for suf in suffixes[L]:
 				if word.endswith(suf):
+					if suf in not_suf:
+						return word
+					if suf in rep_suf:
+					#	print word,suf,L
+					#	print word[:-L]
+						return word[:-L]+rep_suf[suf]
 					return word[:-L]
 	return word
 
@@ -325,12 +354,25 @@ def classify_news_score(input_news_dict):
 		if p_word_international>0:
 			p_international_sum+=log(input_news_dict[w]*p_word_international/p_word)
 	outcome=['business','entertainment','sports','national','international']
-	scores=[exp(p_business_sum+log(1.0/5.0)),exp(p_entertain_sum+log(1.0/5.0)),exp(p_sports_sum+log(1.0/5.0)),exp(p_national_sum+log(1.0/5.0)),exp(p_international_sum+log(1.0/5.0))]
+	score_business=exp(p_business_sum+log(1.0/5.0))
+	score_sports=exp(p_sports_sum+log(1.0/5.0))
+	score_national=exp(p_national_sum+log(1.0/5.0))
+	score_international=exp(p_international_sum+log(1.0/5.0))
+	score_entertain=exp(p_entertain_sum+log(1.0/5.0))
+	scores=[score_business,score_entertain,score_sports,score_national,score_international]
+	scores1=[(score_business,'business'),(score_entertain,'entertainment'),(score_sports,'sports'),(score_national,'national'),(score_international,'international')]
+	scores1.sort(reverse=True)
+	print scores1
 	print scores
-	max_score=max(scores)
-	message=outcome[scores.index(max_score)]
+	max_score=scores1[0][0]
+	#message=outcome[scores.index(max_score)]
+	message=scores1[0][1]
+	msc1=scores1[1][0]
+	message1=scores1[1][1]
+	msc2=scores1[2][0]
+	message2=scores1[2][1]
 	#print 'business = ', exp(p_business_sum+log(1.0/3.0)),'sports = ',exp(p_sports_sum+log(1.0/3.0)), 'entertain = ',exp(p_entertain_sum+log(1.0/3.0))
-	return (message,max_score)
+	return [(message,max_score),(message1,msc1),(message2,msc2)]
 
 def check_state(input_text):
 	pass
@@ -374,12 +416,19 @@ def classify(request):
 	c.update(csrf(request))
 	outcome=''
 	hindi={}
+	other={}
 	x=''
 	hindi['business']=u'यह समाचार व्यापार से संबंधित है।'
 	hindi['national']=u'यह राष्ट्रीय समाचार है।'
 	hindi['international']=u'यह अंतरराष्ट्रीय समाचार है।'
-	hindi['sports']=u'यह समाचारखेल से संबंधित है।'
+	hindi['sports']=u'यह समाचार खेल से संबंधित है।'
 	hindi['entertainment']=u'यह समाचार मनोरंजन क्षेत्र से संबंधित है।'
+
+	other['business']=u'व्यापार'
+	other['national']=u'राष्ट्रीय'
+	other['international']=u'अंतरराष्ट्रीय'
+	other['sports']=u'खेल'
+	other['entertainment']=u'मनोरंजन'
 	if request.POST: 
 		print 'post request on predict page'
 		try:
@@ -400,12 +449,18 @@ def classify(request):
 		ssfr,sample_data_count=temp[0],temp[1]
 		print sample_data_count
 		h = classify_news_score(ssfr)
-		out=h[0]
-		#print hindi[out]
+		out=h[0][0]
+
+		print hindi[out]
 		outcome=hindi[out]
+		out1=h[1][0]
+		outcome1=other[out1]
+		out2=h[2][0]
+		outcome2=other[out2]
+		print outcome1,outcome2
 
 
-	return render_to_response('predict.html',{'outcome':outcome },context_instance=RequestContext(request))
+	return render_to_response('predict.html',{'outcome':outcome ,'prob1':outcome1,'prob2':outcome2},context_instance=RequestContext(request))
 
 def clean_html(input_text):
 	text=lxml.html.document_fromstring(input_text)
@@ -415,8 +470,15 @@ def generate_news(url):
 	'''works for 
 	ndtv,hindustan,jansatta
 	'''
-	response=urllib.urlopen(url)
+	empty=None,None,None,None
+	try:
+		response=urllib.urlopen(url)
+		print 'news gen'
+	except:
+		return empty
+		print 'exception raised'
 	tree=etree.parse(response)
+
 	t=tree.xpath('//item/title/text()')
 	l=tree.xpath('//item/link/text()')
 	d=tree.xpath('//item/description/text()')
@@ -468,6 +530,9 @@ def suggest(request):
 			#do processing here
 			print 'working for ',each_url
 			title,link,description,pubdate=generate_news(each_url)
+			if not title:
+				return HttpResponse("<h2>Kindly check your internet connection</h2>")
+
 			print 'len of news generated ',len(title)
 
 			temp_ci=return_each_news(description,input_text)
