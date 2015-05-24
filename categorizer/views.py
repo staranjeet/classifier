@@ -415,6 +415,8 @@ def classify(request):
 	c = {}
 	c.update(csrf(request))
 	outcome=''
+	outcome1=''
+	outcome2=''
 	hindi={}
 	other={}
 	x=''
@@ -496,7 +498,7 @@ def return_each_news(description,category):
 		temp=make_data_set(i)
 		ssfr,sample_data_count=temp[0],temp[1]
 		h = classify_news_score(ssfr)
-		outcome=h[0]
+		outcome=h[0][0]
 		if outcome==category:
 			#return description.index(i)
 			if h[1]>max_score:
@@ -530,8 +532,9 @@ def suggest(request):
 			#do processing here
 			print 'working for ',each_url
 			title,link,description,pubdate=generate_news(each_url)
-			if not title:
-				return HttpResponse("<h2>Kindly check your internet connection</h2>")
+			#print title
+			# if not title:
+			# 	return HttpResponse("<h2>Kindly check your internet connection</h2>")
 
 			print 'len of news generated ',len(title)
 
