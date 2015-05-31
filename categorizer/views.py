@@ -531,7 +531,10 @@ def suggest(request):
 		for each_url in urls:
 			#do processing here
 			print 'working for ',each_url
-			title,link,description,pubdate=generate_news(each_url)
+			try:
+				title,link,description,pubdate=generate_news(each_url)
+			except:
+				return HttpResponse("<h2>No active internet connection</h2><br/><a href='/tokenizer'>Home</a>")
 			#print title
 			# if not title:
 			# 	return HttpResponse("<h2>Kindly check your internet connection</h2>")
